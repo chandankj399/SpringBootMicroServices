@@ -6,6 +6,7 @@ public class SpecimenDTO {
 	private String latitude;
 	private String longitude;
 	private String description;
+	private int plantId;
 	public int getSpecimenId() {
 		return specimenId;
 	}
@@ -29,6 +30,12 @@ public class SpecimenDTO {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public int getPlantId() {
+		return plantId;
+	}
+	public void setPlantId(int plantId) {
+		this.plantId = plantId;
 	}
 	@Override
 	public String toString() {

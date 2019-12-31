@@ -3,13 +3,18 @@ package com.plantplaces.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.plantplaces.dao.ISpecimenDAO;
 import com.plantplaces.dto.PlantDTO;
 import com.plantplaces.dto.SpecimenDTO;
 
 @Component
 public class SpecimenServiceStub implements ISpecimenService {
+	
+	@Autowired
+	private ISpecimenDAO specimenDAO;
 	
 	@Override
 	public SpecimenDTO fetchById(int id) {
@@ -22,8 +27,9 @@ public class SpecimenServiceStub implements ISpecimenService {
 	}
 	
 	@Override
-	public void save(SpecimenDTO specimenDTO) {
-		
+	public boolean save(SpecimenDTO specimenDTO) throws Exception{
+		boolean result = specimenDAO.save(specimenDTO);
+		return result;
 	}
 
 	@Override

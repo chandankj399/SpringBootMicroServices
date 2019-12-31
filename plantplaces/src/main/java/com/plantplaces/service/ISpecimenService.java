@@ -9,7 +9,7 @@ public interface ISpecimenService {
 
 	SpecimenDTO fetchById(int id);
 
-	void save(SpecimenDTO specimenDTO);
+	boolean save(SpecimenDTO specimenDTO) throws Exception;
 	
 	List<PlantDTO> fetchPlants(String string);
 
