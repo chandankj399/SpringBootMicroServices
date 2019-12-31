@@ -1,5 +1,6 @@
 package com.plantplaces.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -28,13 +29,16 @@ public class SpecimenServiceStub implements ISpecimenService {
 	@Override
 	public List<PlantDTO> fetchPlants(String searchTerm) {
 		// TODO Auto-generated method stub
+		
+		List<PlantDTO> matchingPlants = new ArrayList<PlantDTO>();
 		if (searchTerm.contains("edbud") || searchTerm.contains("Cersis")) {
 			PlantDTO plant = new PlantDTO();
 			plant.setGenus("Cercis");
 			plant.setSpecies("canadensis");
 			plant.setCommon("Eastern Redbud");
+			matchingPlants.add(plant);
 		}
-		return null;
+		return matchingPlants;
 	}
 
 }
