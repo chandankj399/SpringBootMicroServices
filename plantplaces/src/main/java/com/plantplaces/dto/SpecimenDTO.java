@@ -30,5 +30,10 @@ public class SpecimenDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	@Override
+	public String toString() {
+		return "SpecimenDTO [specimenId=" + specimenId + ", latitude=" + latitude + ", longitude=" + longitude
+				+ ", description=" + description + "]";
+	}
 
 }
