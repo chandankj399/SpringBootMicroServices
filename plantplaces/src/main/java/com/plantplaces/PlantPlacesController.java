@@ -18,13 +18,20 @@ public class PlantPlacesController {
 	@Autowired
 	private ISpecimenService specimenServiceStub;
 	
-	@RequestMapping(value="/start", method=RequestMethod.GET)
-	@ResponseBody
-	public SpecimenDTO read(Model model) {
-		SpecimenDTO specimenDTO = specimenServiceStub.fetchById(43);
-		model.addAttribute("specimenDTO", specimenDTO);
-		return specimenDTO;
+	@RequestMapping(value="/savespecimen")
+	public String saveSpecimen(SpecimenDTO specimenDTO) {
+		specimenDTO.setPlantId(10);
+		
+		return "start";
 	}
+	
+//	@RequestMapping(value="/start", method=RequestMethod.GET)
+//	@ResponseBody
+//	public SpecimenDTO readJSON(Model model) {
+//		SpecimenDTO specimenDTO = specimenServiceStub.fetchById(43);
+//		model.addAttribute("specimenDTO", specimenDTO);
+//		return specimenDTO;
+//	}
 	
 	@RequestMapping(value="/start", method=RequestMethod.GET, params= {"loyalty=blue"})
 	public String readBlue() {
@@ -46,8 +53,9 @@ public class PlantPlacesController {
 	}
 	
 	
-	@RequestMapping(value="/start", method=RequestMethod.GET, headers = {"content-type=text/json"})
-	public String readJSON() {
+	@RequestMapping(value="/start", method=RequestMethod.GET)
+	public String read(Model model) {
+		model.addAttribute("specimenDTO", new SpecimenDTO());
 		return "start";
 	}
 	
