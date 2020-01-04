@@ -87,5 +87,10 @@ public class PlantPlacesController {
 		return "start";
 	}
 	
+	
+	@RequestMapping("/sustainability")
+	public String sustainabilty() {
+		return "sustainability";
+	}
 
 }

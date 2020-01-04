@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>PlantPlaces.com</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!-- th replace -->
+<div th:replace="fragments/topnav :: navbar"></div>
+
+<br>
+
+<p th:text="${specimenDTO}"/>
+
+Your sustainability rating is:
+
+
+
+</body>
+</html>
