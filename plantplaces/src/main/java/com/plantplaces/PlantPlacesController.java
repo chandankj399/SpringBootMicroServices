@@ -1,5 +1,6 @@
 package com.plantplaces;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.plantplaces.dto.PlantDTO;
 import com.plantplaces.dto.SpecimenDTO;
 import com.plantplaces.service.ISpecimenService;
 
@@ -74,7 +76,8 @@ public class PlantPlacesController {
 	
 	@RequestMapping("/searchPlants")
 	public String searchPlants(@RequestParam(value="searchTerm", required = false, defaultValue = "") String searchTerm) {
-		
+		List<PlantDTO> fetchPlants = specimenService.fetchPlants(searchTerm);
+		System.out.println(fetchPlants);
 		return "start";
 	}
 	
