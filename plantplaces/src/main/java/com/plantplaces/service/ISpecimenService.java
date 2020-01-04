@@ -11,6 +11,6 @@ public interface ISpecimenService {
 
 	boolean save(SpecimenDTO specimenDTO) throws Exception;
 	
-	List<PlantDTO> fetchPlants(String string);
+	List<PlantDTO> fetchPlants(String string) throws Exception;
 
 }

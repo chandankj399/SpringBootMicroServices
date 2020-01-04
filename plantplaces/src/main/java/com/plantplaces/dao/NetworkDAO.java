@@ -7,6 +7,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.springframework.stereotype.Component;
+
+
+@Component
 public class NetworkDAO {
 	
 	public String request(String endpoint) throws Exception{
@@ -24,7 +28,7 @@ public class NetworkDAO {
 		// open a conection to this URL
 		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 		
-		
+		try {
 		// read in the bytes
 		InputStream inputStream = urlConnection.getInputStream();
 		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
@@ -32,6 +36,18 @@ public class NetworkDAO {
 		// read them as characters.
 		InputStreamReader inputStreamReader = new InputStreamReader(bufferedInputStream);
 		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		
+		// read one line at a time
+		String inputLine = bufferedReader.readLine();
+		while (inputLine != null) {
+			sb.append(inputLine);
+			inputLine = bufferedReader.readLine();
+		}
+		}
+		finally {
+			urlConnection.disconnect();
+		}
+		
 		
 		return sb.toString();
 	}

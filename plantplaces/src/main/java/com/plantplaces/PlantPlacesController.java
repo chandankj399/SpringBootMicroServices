@@ -76,8 +76,15 @@ public class PlantPlacesController {
 	
 	@RequestMapping("/searchPlants")
 	public String searchPlants(@RequestParam(value="searchTerm", required = false, defaultValue = "") String searchTerm) {
+		
+		try {
+		@SuppressWarnings("unused")
 		List<PlantDTO> fetchPlants = specimenService.fetchPlants(searchTerm);
-		System.out.println(fetchPlants);
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			return "error";
+		}
 		return "start";
 	}
 	
