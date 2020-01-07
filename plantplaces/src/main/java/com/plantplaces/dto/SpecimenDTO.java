@@ -1,12 +1,31 @@
 package com.plantplaces.dto;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="specimens")
 public class SpecimenDTO {
 	
+	@Id
+	@Column(name="SPECIMEN_ID")
 	private int specimenId;
+	@Column(name="LATITUDE")
 	private String latitude;
+	@Column(name="LONGITUDE")
 	private String longitude;
+	@Column(name="DESCRIPTION")
 	private String description;
+	@Column(name="PLANT_ID")
 	private int plantId;
+	@Column(name="PLANT_NAME")
+	private String plantName;
+	
 	public int getSpecimenId() {
 		return specimenId;
 	}
@@ -37,10 +56,15 @@ public class SpecimenDTO {
 	public void setPlantId(int plantId) {
 		this.plantId = plantId;
 	}
+	public String getPlantName() {
+		return plantName;
+	}
+	public void setPlantName(String plantName) {
+		this.plantName = plantName;
+	}
 	@Override
 	public String toString() {
-		return "SpecimenDTO [specimenId=" + specimenId + ", latitude=" + latitude + ", longitude=" + longitude
-				+ ", description=" + description + "]";
-	}
+		return plantName + " " + specimenId + " " + latitude + " " + longitude + " " + description;
+		}
 
 }

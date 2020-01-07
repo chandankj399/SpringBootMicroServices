@@ -5,6 +5,25 @@
 <title>PlantPlaces.com</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+  <style>
+  .ui-autocomplete-loading {
+    background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+  }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+  <script type="text/javascript">
+  		$(function(){
+  			$("#Plant_Name").autocomplete({
+  				source: ["Eastern Redbud", "Eastern White Pine", "Eastern Red Cedar"],
+  				minLength: 2
+  			});
+  		});
+  </script>
+
 </head>
 <body>
 <!-- th replace -->
@@ -43,7 +62,12 @@ Your Specimen is:
   </div>
   <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="plantId" th:field="*{plantId}">
 </div>
-
+<div class="input-group input-group-sm mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="inputGroup-sizing-sm">Plant Name</span>
+  </div>
+  <input id="Plant_Name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="plantName" th:field="*{plantName}">
+</div>
 
 <button name="submit" type="submit" value="0" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >Submit</button>
 </form>

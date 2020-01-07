@@ -13,4 +13,6 @@ public interface ISpecimenService {
 	
 	List<PlantDTO> fetchPlants(String string) throws Exception;
 
+	Iterable<SpecimenDTO> fetchAllSpecimens() throws Exception;
+
 }

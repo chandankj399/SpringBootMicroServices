@@ -47,4 +47,10 @@ public class SpecimenServiceStub implements ISpecimenService {
 		return matchingPlants;
 	}
 
+	@Override
+	public Iterable<SpecimenDTO> fetchAllSpecimens() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
