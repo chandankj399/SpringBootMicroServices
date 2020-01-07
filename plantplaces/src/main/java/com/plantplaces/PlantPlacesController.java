@@ -35,13 +35,7 @@ public class PlantPlacesController {
 		return "start";
 	}
 	
-//	@RequestMapping(value="/start", method=RequestMethod.GET)
-//	@ResponseBody
-//	public SpecimenDTO readJSON(Model model) {
-//		SpecimenDTO specimenDTO = specimenServiceStub.fetchById(43);
-//		model.addAttribute("specimenDTO", specimenDTO);
-//		return specimenDTO;
-//	}
+
 	
 	@RequestMapping(value="/start", method=RequestMethod.GET, params= {"loyalty=blue"})
 	public String readBlue() {
