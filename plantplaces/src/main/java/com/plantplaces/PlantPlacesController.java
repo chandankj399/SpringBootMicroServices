@@ -1,5 +1,6 @@
 package com.plantplaces;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,13 +11,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.plantplaces.dto.PlantDTO;
 import com.plantplaces.dto.SpecimenDTO;
 import com.plantplaces.service.ISpecimenService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 public class PlantPlacesController {
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private ISpecimenService specimenService;
@@ -58,6 +65,7 @@ public class PlantPlacesController {
 	
 	@RequestMapping(value="/start", method=RequestMethod.GET)
 	public String read(Model model) {
+		log.info("User has entered start endpoint");
 		model.addAttribute("specimenDTO", new SpecimenDTO());
 		return "start";
 	}
@@ -75,17 +83,25 @@ public class PlantPlacesController {
 	}
 	
 	@RequestMapping("/searchPlants")
-	public String searchPlants(@RequestParam(value="searchTerm", required = false, defaultValue = "") String searchTerm) {
-		
+	public ModelAndView searchPlants(@RequestParam(value="searchTerm", required = false, defaultValue = "") String searchTerm) {
+		log.debug("entering search plants");
+		ModelAndView modelAndView = new ModelAndView();
+		List<PlantDTO> plants = new ArrayList<PlantDTO>();
 		try {
-		@SuppressWarnings("unused")
-		List<PlantDTO> fetchPlants = specimenService.fetchPlants(searchTerm);
+			plants = specimenService.fetchPlants(searchTerm);
+			modelAndView.setViewName("plantResults");
+			if (plants.size() == 0) {
+				log.warn("No results fo this search term" + searchTerm);
+			}
 		}
 		catch (Exception e){
+			log.error("Error occurred in searchPlants endpoint", e);
 			e.printStackTrace();
-			return "error";
+			modelAndView.setViewName("error");
 		}
-		return "start";
+		modelAndView.addObject("plants", plants);
+		log.debug("exiting search Plants");
+		return modelAndView;
 	}
 	
 	@RequestMapping("/searchPlantsAll")

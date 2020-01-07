@@ -8,4 +8,6 @@ public interface IPlantDAO {
 
 	List<PlantDTO> fetch(String searchFilter) throws Exception;
 
+	List<PlantDTO> fetchManual(String searchFilter) throws Exception;
+
 }
