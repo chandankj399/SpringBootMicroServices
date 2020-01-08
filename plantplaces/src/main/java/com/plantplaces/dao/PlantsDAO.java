@@ -27,6 +27,7 @@ public class PlantsDAO implements IPlantDAO {
 	 */
 	public List<PlantDTO> fetchManual(String searchFilter) throws Exception {
 		List<PlantDTO> allPlants = new ArrayList<PlantDTO>();
+		searchFilter = searchFilter.replace(" ", "%20");
 		
 		String rawJson = networkDAO.request("http://plantplaces.com/perl/mobile/viewplantsjson.pl?Combined_Name=" + searchFilter);
 		
