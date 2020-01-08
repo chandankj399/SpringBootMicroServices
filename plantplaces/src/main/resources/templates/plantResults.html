@@ -13,7 +13,7 @@
 
 <br/>
 <div class="list-group" th:each="plant : ${plants}">
-	<a class="list-group-item list-group-item-action active" th:href="@{https://www.plantplaces.com/perl/viewplantdetails.pl(plant_ID=${plant.guid})}" >
+	<a class="list-group-item list-group-item-action active" th:href="@{/showSpecimenDetails(plant_ID=${plant.guid})}" >
 		<p th:text="${plant}"/>
 	</a>
 </div>

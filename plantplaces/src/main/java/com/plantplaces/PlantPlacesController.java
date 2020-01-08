@@ -36,30 +36,36 @@ public class PlantPlacesController {
 	private String firstThreeCharacters;
 	
 	@PostMapping(value="/savespecimen")
-	public String saveSpecimen(@RequestParam("imageFile") MultipartFile imageFile, SpecimenDTO specimenDTO) {
-		
+	public ModelAndView saveSpecimen(@RequestParam("imageFile") MultipartFile imageFile, SpecimenDTO specimenDTO) {
+		ModelAndView modelAndView = new ModelAndView();
 		try {
 			specimenService.save(specimenDTO);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			log.error("unable tosave specimen", e);
 			e.printStackTrace();
-			return "error";
+			modelAndView.setViewName("error");
+			return modelAndView;
 		}
-		String returnValue = "start";
+		
 		PhotoDTO photoDTO = new PhotoDTO();
 		photoDTO.setFileName(imageFile.getOriginalFilename());
 		photoDTO.setPath("/photos/");
 		photoDTO.setSpecimenDTO(specimenDTO);
+		modelAndView.setViewName("success");
 		try {
 			specimenService.saveImage(imageFile, photoDTO);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			log.error("Error saving photo",e);
-			returnValue = "error";
+			modelAndView.setViewName("error");
+			return modelAndView;
 		}
-		return returnValue;
+		
+		modelAndView.addObject("photoDTO", photoDTO);
+		modelAndView.addObject("specimenDTO", specimenDTO);
+		return modelAndView;
 		
 	
 	}
@@ -200,4 +206,10 @@ public class PlantPlacesController {
 		return returnValue;
 	}
 
+	@RequestMapping("showSpecimenDetails")
+	public String showSpecimenDetails(@RequestParam("plant_ID") int plantId) {
+		String returnValue = "specimenDetails";
+		List<SpecimenDTO>  specimens = specimenService.fetchSpecimensByPlantId(plantId);
+		return returnValue;
+	}
 }

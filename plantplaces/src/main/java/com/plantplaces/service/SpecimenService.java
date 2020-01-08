@@ -61,7 +61,13 @@ public class SpecimenService implements ISpecimenService {
 	public void saveImage(MultipartFile imageFile, PhotoDTO photoDTO) throws Exception {
 		// TODO Auto-generated method stub
 		photoDAO.save(photoDTO);
-		photoDAO.savePhotoImage(imageFile);
+		photoDAO.savePhotoImage(photoDTO,imageFile);
 	}
-
+	
+	@Override
+	public List<SpecimenDTO> fetchSpecimensByPlantId(int plantId){
+		return   specimenDAO.fetchSpecimensByPlantId(plantId);
+		 
+	}
+	
 }
