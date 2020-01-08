@@ -19,7 +19,12 @@
   		$(function(){
   			$("#Plant_Name").autocomplete({
   				source: "plantNamesAutocomplete",
-  				minLength: 3
+  				minLength: 3,
+  				select: function(event,ui){
+  					this.value = ui.item.label;
+  					$("#Plant_ID").val(ui.item.value);
+  					return false;
+  				}
   			});
   		});
   </script>
@@ -34,7 +39,7 @@
 Your Specimen is:
 <p th:text="${specimenDTO}"/>
 
-<form action="#" th:action="@{/savespecimen}" th:object="${specimenDTO}" method="GET">
+<form action="#" th:action="@{/savespecimen}" th:object="${specimenDTO}" method="POST" enctype="multipart/form-data">
 <div class="input-group input-group-sm mb-3">
   <div class="input-group-prepend">
     <span class="input-group-text" id="inputGroup-sizing-sm">Latitude</span>
@@ -56,12 +61,8 @@ Your Specimen is:
   <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="description" th:field="*{description}">
 </div>
 
-<div class="input-group input-group-sm mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-sm">Plant</span>
-  </div>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="plantId" th:field="*{plantId}">
-</div>
+
+  <input id="Plant_ID" type="hidden" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="plantId" th:field="*{plantId}">
 <div class="input-group input-group-sm mb-3">
   <div class="input-group-prepend">
     <span class="input-group-text" id="inputGroup-sizing-sm">Plant Name</span>
@@ -69,10 +70,9 @@ Your Specimen is:
   <input id="Plant_Name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="plantName" th:field="*{plantName}">
 </div>
 
-<button name="submit" type="submit" value="0" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >Submit</button>
+	<input type="file" name="imageFile">
+	<input type="submit" value="Upload">
 </form>
-
-
 
 
 </body>

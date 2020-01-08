@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.plantplaces.dto.LabelValueDTO;
+import com.plantplaces.dto.PhotoDTO;
 import com.plantplaces.dto.PlantDTO;
 import com.plantplaces.dto.SpecimenDTO;
 import com.plantplaces.service.ISpecimenService;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Controller
 public class PlantPlacesController {
@@ -33,8 +35,8 @@ public class PlantPlacesController {
 
 	private String firstThreeCharacters;
 	
-	@RequestMapping(value="/savespecimen")
-	public String saveSpecimen(SpecimenDTO specimenDTO) {
+	@PostMapping(value="/savespecimen")
+	public String saveSpecimen(@RequestParam("imageFile") MultipartFile imageFile, SpecimenDTO specimenDTO) {
 		
 		try {
 			specimenService.save(specimenDTO);
@@ -44,7 +46,22 @@ public class PlantPlacesController {
 			e.printStackTrace();
 			return "error";
 		}
-		return "start";
+		String returnValue = "start";
+		PhotoDTO photoDTO = new PhotoDTO();
+		photoDTO.setFileName(imageFile.getOriginalFilename());
+		photoDTO.setPath("/photos/");
+		photoDTO.setSpecimenDTO(specimenDTO);
+		try {
+			specimenService.saveImage(imageFile, photoDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.error("Error saving photo",e);
+			returnValue = "error";
+		}
+		return returnValue;
+		
+	
 	}
 	
 
@@ -141,8 +158,8 @@ public class PlantPlacesController {
 	
 	@RequestMapping(value="/plantNamesAutocomplete")
 	@ResponseBody
-	public List<String> plantNamesAutocomplete(@RequestParam(value = "term", required = false, defaultValue = "") String term){
-		List<String> suggestions = new ArrayList<String>();
+	public List<LabelValueDTO> plantNamesAutocomplete(@RequestParam(value = "term", required = false, defaultValue = "") String term){
+		List<LabelValueDTO> suggestions = new ArrayList<LabelValueDTO>();
 		try {
 			// only update when term is three characters.
 			if (term.length() == 3) {
@@ -152,7 +169,10 @@ public class PlantPlacesController {
 			
 			for(PlantDTO plantDTO: allPlants) {
 				if (plantDTO.toString().contains(term)) {
-				suggestions.add(plantDTO.toString());
+					LabelValueDTO lv = new LabelValueDTO();
+					lv.setLabel(plantDTO.toString());
+					lv.setValue(Integer.toString(plantDTO.getGuid()));
+					suggestions.add(lv);
 			   }
 			}
 		} catch (Exception e) {
@@ -162,6 +182,22 @@ public class PlantPlacesController {
 		}
 		
 		return suggestions;
+	}
+	
+	@PostMapping("/uploadImage")
+	public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile) {
+		String returnValue = "start";
+		PhotoDTO photoDTO = new PhotoDTO();
+		photoDTO.setFileName(imageFile.getOriginalFilename());
+		try {
+			specimenService.saveImage(imageFile, photoDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.error("Error saving photo",e);
+			returnValue = "error";
+		}
+		return returnValue;
 	}
 
 }
